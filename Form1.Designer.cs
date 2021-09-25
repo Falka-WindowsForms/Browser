@@ -46,6 +46,10 @@ namespace Browser
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.addCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCategoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -176,13 +180,18 @@ namespace Browser
             // 
             this.categoriesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addCategoryToolStripMenuItem,
-            this.deleteCategoryToolStripMenuItem});
+            this.deleteCategoryToolStripMenuItem,
+            this.editCategoryToolStripMenuItem});
             this.categoriesToolStripMenuItem.Name = "categoriesToolStripMenuItem";
             this.categoriesToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
             this.categoriesToolStripMenuItem.Text = "&Categories";
             // 
             // sitesToolStripMenuItem
             // 
+            this.sitesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addSiteToolStripMenuItem,
+            this.deleteSiteToolStripMenuItem,
+            this.editSiteToolStripMenuItem});
             this.sitesToolStripMenuItem.Name = "sitesToolStripMenuItem";
             this.sitesToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.sitesToolStripMenuItem.Text = "&Sites";
@@ -229,6 +238,34 @@ namespace Browser
             this.deleteCategoryToolStripMenuItem.Text = "&Delete category";
             this.deleteCategoryToolStripMenuItem.Click += new System.EventHandler(this.deleteCategoryToolStripMenuItem_Click);
             // 
+            // editCategoryToolStripMenuItem
+            // 
+            this.editCategoryToolStripMenuItem.Name = "editCategoryToolStripMenuItem";
+            this.editCategoryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editCategoryToolStripMenuItem.Text = "&Edit category";
+            this.editCategoryToolStripMenuItem.Click += new System.EventHandler(this.editCategoryToolStripMenuItem_Click);
+            // 
+            // addSiteToolStripMenuItem
+            // 
+            this.addSiteToolStripMenuItem.Name = "addSiteToolStripMenuItem";
+            this.addSiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.addSiteToolStripMenuItem.Text = "&Add site";
+            this.addSiteToolStripMenuItem.Click += new System.EventHandler(this.addSiteToolStripMenuItem_Click);
+            // 
+            // deleteSiteToolStripMenuItem
+            // 
+            this.deleteSiteToolStripMenuItem.Name = "deleteSiteToolStripMenuItem";
+            this.deleteSiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteSiteToolStripMenuItem.Text = "&Delete site";
+            this.deleteSiteToolStripMenuItem.Click += new System.EventHandler(this.deleteSiteToolStripMenuItem_Click);
+            // 
+            // editSiteToolStripMenuItem
+            // 
+            this.editSiteToolStripMenuItem.Name = "editSiteToolStripMenuItem";
+            this.editSiteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editSiteToolStripMenuItem.Text = "&Edit site";
+            this.editSiteToolStripMenuItem.Click += new System.EventHandler(this.editSiteToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -273,6 +310,10 @@ namespace Browser
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.ToolStripMenuItem addCategoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteCategoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editCategoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addSiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteSiteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editSiteToolStripMenuItem;
     }
 }
 

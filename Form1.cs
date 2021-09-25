@@ -191,6 +191,7 @@ namespace Browser
                 newRow["Id"] = lastId + 1;
                 newRow["Name"] = categoryName;
                 _dataSet.Tables[0].Rows.Add(newRow);
+                _dataSet.AcceptChanges();
                 _adapter.Update(_dataSet.Tables[0]);
                 LoadCategories();
                 MessageBox.Show("Category successfully added", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -206,17 +207,89 @@ namespace Browser
             if (editor.ShowDialog() == DialogResult.OK)
             {
                 string categoryName = editor.CategoryName;
+                bool tg = false;
                 foreach(DataRow row in _dataSet.Tables[0].Rows)
                 {
-                    if (row["Name"].ToString() == categoryName)
+                   if (row["Name"].ToString() == categoryName)
                     {
                         row.Delete();
-                        MessageBox.Show("Category deleted", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        tg = true;
                     }
                 }
+                if (tg == true)
+                {
+                _dataSet.AcceptChanges();
                 _adapter.Update(_dataSet.Tables[0]);
                 LoadCategories();
+                MessageBox.Show("Category deleted", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Category isn`t exist", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                
             }
+        }
+
+        private void editCategoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CategoriesEditor editor = new CategoriesEditor();
+            editor.ActionName = "Edit category";
+            if (categories_list.SelectedIndex > -1)
+                editor.CategoryName = (categories_list.SelectedItem as Category).Name;
+            if (editor.ShowDialog() == DialogResult.OK)
+            {
+                string categoryName = editor.CategoryName;
+                if(categoryName != (categories_list.SelectedItem as Category).Name)
+                {
+                    int selectedId = (categories_list.SelectedItem as Category).Id;
+                    DataRow editedRow = _dataSet.Tables[0].Select($"Id = {selectedId}")[0];
+                    editedRow["Name"] = categoryName;
+                    _dataSet.AcceptChanges();
+                    _adapter.Update(_dataSet.Tables[0]);
+                    LoadCategories();
+                    MessageBox.Show("Category updated", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void addSiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SitesEditor editor = new SitesEditor();
+            editor.ActionName = "Add site";
+            foreach(Category category in categories_list.Items)
+            {
+                editor.Categories.Add(category);
+            }
+            if(editor.ShowDialog() == DialogResult.OK)
+            {
+                string siteName = editor.SiteName;
+                string address = editor.AddressName;
+                int categoryId = editor.SelectedCategoryId;
+                int count = _dataSet.Tables[1].Rows.Count;
+                int lastId = (int)_dataSet.Tables[1].Rows[count - 1]["Id"];
+                DataRow newRow = _dataSet.Tables[1].NewRow();
+                newRow["Id"] = lastId + 1;
+                newRow["Name"] = siteName;
+                newRow["Addr"] = address;
+                newRow["CategoryId"] = categoryId;
+
+                _dataSet.Tables[1].Rows.Add(newRow);
+                _dataSet.AcceptChanges();
+                _adapter.Update(_dataSet.Tables[1]);
+                LoadSites();
+                MessageBox.Show("Site successfully added", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void deleteSiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editSiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
