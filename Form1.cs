@@ -27,8 +27,8 @@ namespace Browser
                 _connectionString =
                     ConfigurationManager.ConnectionStrings["Default"].ConnectionString;
                 _connection = new SqlConnection(_connectionString);
-                string initQuery = "select * from Categories;" +
-                                   "select * from Sites;";
+                string initQuery = "select * from Categories order by Id;" +
+                                   "select * from Sites order by Id;";
                 _adapter = new SqlDataAdapter(initQuery,_connection);
                 _builder = new SqlCommandBuilder(_adapter);
                 _dataSet = new DataSet();
@@ -86,6 +86,7 @@ namespace Browser
                     sites_list.Items.Add(site);
                 }
                 sites_list.DisplayMember = "Name";
+                
             } 
             catch (Exception err)
             {
@@ -179,7 +180,43 @@ namespace Browser
 
         private void addCategoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CategoriesEditor editor = new CategoriesEditor();
+            editor.ActionName = "Add category";
+            if (editor.ShowDialog() == DialogResult.OK)
+            {
+                string categoryName = editor.CategoryName;
+                int count = _dataSet.Tables[0].Rows.Count;
+                int lastId = (int)_dataSet.Tables[0].Rows[count - 1]["id"];
+                DataRow newRow = _dataSet.Tables[0].NewRow();
+                newRow["Id"] = lastId + 1;
+                newRow["Name"] = categoryName;
+                _dataSet.Tables[0].Rows.Add(newRow);
+                _adapter.Update(_dataSet.Tables[0]);
+                LoadCategories();
+                MessageBox.Show("Category successfully added", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
 
+        private void deleteCategoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CategoriesEditor editor = new CategoriesEditor();
+            editor.ActionName = "Delete category";
+            if (categories_list.SelectedIndex > -1)
+                editor.CategoryName = (categories_list.SelectedItem as Category).Name;
+            if (editor.ShowDialog() == DialogResult.OK)
+            {
+                string categoryName = editor.CategoryName;
+                foreach(DataRow row in _dataSet.Tables[0].Rows)
+                {
+                    if (row["Name"].ToString() == categoryName)
+                    {
+                        row.Delete();
+                        MessageBox.Show("Category deleted", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                _adapter.Update(_dataSet.Tables[0]);
+                LoadCategories();
+            }
         }
     }
 }
