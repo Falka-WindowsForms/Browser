@@ -16,19 +16,26 @@ namespace Browser
         {
             InitializeComponent();
             Categories = new List<Category>();
+            SelectedCategoryIndex = -1;
+            SelectedCategoryId = -1;
         }
         public string ActionName { get; set; }
         public string SiteName { get; set; }
         public string AddressName { get; set; }
         public int SelectedCategoryId { get;set; }
+        public int SelectedCategoryIndex { get;set; }
         public List<Category> Categories { get; set; }
 
         private void SitesEditor_Load(object sender, EventArgs e)
         {
             action_button.Text = ActionName;
+            name_field.Text = SiteName;
+            address_field.Text = AddressName;
+            
             foreach(Category category in Categories)
                 categories_list.Items.Add(category);
             categories_list.DisplayMember = "Name";
+            categories_list.SelectedIndex = SelectedCategoryIndex;
         }
 
         private void action_button_Click(object sender, EventArgs e)

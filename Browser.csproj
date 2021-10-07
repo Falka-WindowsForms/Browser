@@ -68,6 +68,12 @@
     <Compile Include="CategoriesEditor.Designer.cs">
       <DependentUpon>CategoriesEditor.cs</DependentUpon>
     </Compile>
+    <Compile Include="DeleteSiteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeleteSiteForm.Designer.cs">
+      <DependentUpon>DeleteSiteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +92,9 @@
     </Compile>
     <EmbeddedResource Include="CategoriesEditor.resx">
       <DependentUpon>CategoriesEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeleteSiteForm.resx">
+      <DependentUpon>DeleteSiteForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -117,11 +126,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Database1.mdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Database1_log.ldf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>Database1.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

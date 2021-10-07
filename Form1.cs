@@ -284,12 +284,84 @@ namespace Browser
 
         private void deleteSiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-        }
+            DeleteSiteForm deleter = new DeleteSiteForm();
+            deleter.ActionName = "Delete site";
+            if (sites_list.SelectedIndex != -1)
+            {
+                deleter.SiteName = ((Site)sites_list.SelectedItem).Name;
+                deleter.SelectedCategoryId = categories_list.SelectedIndex;
+            }
+            foreach (Category category in categories_list.Items)
+            {
+                deleter.Categories.Add(category);
+            }
+            if (deleter.ShowDialog() == DialogResult.OK)
+            {
+                string siteName = deleter.SiteName;
+                int CategoryId = deleter.SelectedCategoryId;
+                DataRow[] rows = _dataSet.Tables[1].Select($"CategoryId = \'{CategoryId}\' AND Name = \'{siteName}\'");
+                if (rows.Length != 0)
+                {
+                    foreach (DataRow row in rows)
+                    {
+                        _dataSet.Tables[1].Rows.Remove(row);
+                    }
+                    MessageBox.Show("Deleted!");
+                }
+                else
+                {
+                    MessageBox.Show("Not finded!");
+                }
+                
+                _dataSet.AcceptChanges();
+                _adapter.Update(_dataSet.Tables[1]);
+                LoadSites();
+            }
+            }
 
         private void editSiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (sites_list.SelectedIndex != -1 && categories_list.SelectedIndex!=-1)
+            {
+                SitesEditor editor = new SitesEditor();
+                foreach (Category category in categories_list.Items)
+                {
+                    editor.Categories.Add(category);
+                }
+                editor.ActionName = "Edit site";
+                editor.SiteName = ((Site)sites_list.SelectedItem).Name.Clone().ToString();
+                editor.AddressName = ((Site)sites_list.SelectedItem).Addr.Clone().ToString();
+                editor.SelectedCategoryIndex = categories_list.SelectedIndex;
+               
+                if (editor.ShowDialog() == DialogResult.OK)
+                {
+                    DataRow[] rows = _dataSet.Tables[1].Select($"CategoryId = \'{((Category)categories_list.SelectedItem).Id}\' AND Name = \'{((Site)sites_list.SelectedItem).Name}\' AND Addr = \'{((Site)sites_list.SelectedItem).Addr}\'");
+                   // MessageBox.Show($"Awaiting id -> {rows[0]["CategoryId"].ToString()}; Id -> {((Category)categories_list.SelectedItem).Id} ");
+                    if (rows.Length > 0)
+                    {
+                        string newName = editor.SiteName;
+                        string newAddress = editor.AddressName;
+                        int NewCategoryIndex = editor.SelectedCategoryId;
+                        foreach(DataRow row in rows)
+                        {
+                            row["Name"] = newName;
+                            row["Addr"] = newAddress;
+                            row["CategoryId"] = NewCategoryIndex;
+                        }
+                        _dataSet.AcceptChanges();
+                        _adapter.Update(_dataSet);
+                        LoadSites();
+                        MessageBox.Show("Updating successful");
+                    }
+                    else
+                        MessageBox.Show("Internal error!\n", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Site not selected", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            
         }
     }
 }
